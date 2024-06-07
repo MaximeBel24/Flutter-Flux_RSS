@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:webfeed/domain/rss_feed.dart';
+
+import 'article.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,10 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Mon Flux RSS'),
@@ -32,7 +37,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  List<Article> articles = [];
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
+            Text('Nombre d\'articles : ${articles.length}',),
           ]
         )
       ),
@@ -64,7 +67,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  getFeed(){
-
+  getFeed() async {
+    final String urlString = "https://www.francebleu.fr/rss/a-la-une.xml";
+    final client = http.Client();
+    final url = Uri.parse(urlString);
+    final clientResponse = await client.get(url);
+    final rssFeed = RssFeed.parse(clientResponse.body);
+    final items = rssFeed.items;
+    if (items != null) {
+      setState(() {
+        articles = items.map((item) => Article(item: item)).toList();
+      });
+    }
   }
 }
