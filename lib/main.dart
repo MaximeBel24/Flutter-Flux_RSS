@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Mon Flux RSS'),
+      home: const MyHomePage(title: 'France Bleu Flux RSS'),
     );
   }
 }
@@ -46,9 +46,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
 
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.blue,
 
-        title: Text(widget.title),
+        title: Text(
+            widget.title,
+          style: const TextStyle(
+            color: Colors.white
+          ),
+        ),
       ),
       body: ListView.separated(
           itemBuilder: (context, index) {
@@ -61,23 +66,43 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Row(
                       children: [
-                        Spacer(),
-                        Text(readableDate(article.date))
+                        const Spacer(),
+                        Text(
+                          readableDate(article.date),
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 13
+                          ),
+                        )
                       ],
                     ),
                     Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(vertical: 8),
                       child: Image.network(
                         article.imageUrl,
                         fit: BoxFit.cover,
                         height: MediaQuery.of(context).size.height / 4,
                       ),
                     ),
-                    Text(article.title),
-                    Padding(
+                    Text(
+                        article.title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                    const Padding(
                         padding: EdgeInsets.only(top: 10),
                     ),
-                    Text(article.description)
+                    Text(
+                        article.description,
+                        style: const TextStyle(
+                          color: Colors.black54
+                        ),
+                    ),
                   ],
                 ),
               ),
