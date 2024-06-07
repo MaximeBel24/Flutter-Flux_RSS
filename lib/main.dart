@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:webfeed/domain/rss_feed.dart';
+import 'package:intl/intl.dart';
 
 import 'article.dart';
 
@@ -49,15 +50,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
         title: Text(widget.title),
       ),
-      body: const Center(
-
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Nombre d\'articles : ${articles.length}',),
-          ]
-        )
+      body: ListView.separated(
+          itemBuilder: (context, index) {
+            final article = articles[index];
+            return InkWell(
+              onTap: (() => print("Tapé sur : ${article.title}")),
+              child: Container(
+                margin: const EdgeInsets.all(8),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Spacer(),
+                        Text(readableDate(article.date))
+                      ],
+                    ),
+                    Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                      child: Image.network(
+                        article.imageUrl,
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height / 4,
+                      ),
+                    ),
+                    Text(article.title),
+                    Padding(
+                        padding: EdgeInsets.only(top: 10),
+                    ),
+                    Text(article.description)
+                  ],
+                ),
+              ),
+            );
+          },
+          separatorBuilder: ((context, index) => const Divider()),
+          itemCount: articles.length
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: getFeed,
@@ -65,6 +92,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
     ),
     );
+  }
+
+  String readableDate(DateTime dateTime) {
+    DateFormat dateFormat = DateFormat.yMMMMEEEEd();
+    String string = dateFormat.format(dateTime);
+    return string;
   }
 
   getFeed() async {
