@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:france_bleu_rss/controller/feed_controller.dart';
+import 'package:france_bleu_rss/controller/home_controller.dart';
 import 'package:france_bleu_rss/modele/feed_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:webfeed/domain/rss_feed.dart';
@@ -20,11 +22,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'France Bleu Flux RSS'),
+      home: HomeController()
     );
   }
 }
