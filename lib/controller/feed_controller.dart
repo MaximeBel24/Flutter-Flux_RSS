@@ -11,9 +11,14 @@ import '../modele/article.dart';
 
 class FeedController extends StatelessWidget {
 
+  final String url;
+
+  const FeedController({required this.url});
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Article>>(
-        future: FeedParser().getFeed(),
+        future: FeedParser().getFeed(url),
         builder: ((context, snapshot) => ListVue(articles: snapshot.data ?? [],))
     );
   }

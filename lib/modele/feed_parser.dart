@@ -5,9 +5,9 @@ import 'package:france_bleu_rss/modele/article.dart';
 
 class FeedParser {
 
-  Future<List<Article>> getFeed() async {
+  Future<List<Article>> getFeed(String urlString) async {
     List<Article> articles = [];
-    final String urlString = "https://www.francebleu.fr/rss/a-la-une.xml";
+
     final client = http.Client();
     final url = Uri.parse(urlString);
     final clientResponse = await client.get(url);
