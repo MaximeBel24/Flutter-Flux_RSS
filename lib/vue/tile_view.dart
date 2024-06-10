@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:france_bleu_rss/controller/detail_controller.dart';
 import 'package:france_bleu_rss/vue/title_text.dart';
 
 import '../modele/article.dart';
@@ -15,7 +16,10 @@ class TileView extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (() => print("Tapé sur : ${article.title}")),
+      onTap: () {
+        final route = MaterialPageRoute(builder: (context) => DetailController(article: article));
+        Navigator.push(context, route);
+      },
       child: Container(
         margin: const EdgeInsets.all(8),
         child: Column(

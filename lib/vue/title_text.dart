@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class TitleText extends StatelessWidget {
 
@@ -8,8 +9,12 @@ class TitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    List<int> bytes = utf8.encode(title);
+    String decoded = utf8.decode(bytes);
+
     return Text(
-      title,
+      decoded,
       textAlign: TextAlign.center,
       style: const TextStyle(
           color: Colors.blue,
