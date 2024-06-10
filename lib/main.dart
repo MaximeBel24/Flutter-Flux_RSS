@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:france_bleu_rss/modele/feed_parser.dart';
 import 'package:http/http.dart' as http;
 import 'package:webfeed/domain/rss_feed.dart';
 import 'package:intl/intl.dart';
 
-import 'article.dart';
+import 'package:france_bleu_rss/modele/article.dart';
 
 void main() {
   runApp(const MyApp());
@@ -119,23 +120,14 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  getFeed() {
+    FeedParser().getFeed().then((newArticles) => setState(() => articles = newArticles));
+  }
+
   String readableDate(DateTime dateTime) {
     DateFormat dateFormat = DateFormat.yMMMMEEEEd();
     String string = dateFormat.format(dateTime);
     return string;
   }
-
-  getFeed() async {
-    final String urlString = "https://www.francebleu.fr/rss/a-la-une.xml";
-    final client = http.Client();
-    final url = Uri.parse(urlString);
-    final clientResponse = await client.get(url);
-    final rssFeed = RssFeed.parse(clientResponse.body);
-    final items = rssFeed.items;
-    if (items != null) {
-      setState(() {
-        articles = items.map((item) => Article(item: item)).toList();
-      });
-    }
-  }
+  
 }
